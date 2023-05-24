@@ -1,0 +1,81 @@
+﻿@model car_guess.Models.GuessCarViewModel
+
+@{
+    ViewBag.Title = "Car Guessing Game";
+
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).ready(function () {
+            debugger;
+            var carId = '@Model.SelectedCarId';
+            $.ajax({
+                url: '/Home/SelectCar',
+                data: { id: carId },
+                success: function (result) {
+                    var carInfoDiv = document.getElementById("carInfoDiv");
+                    carInfoDiv.innerHTML = result;
+                },
+            });
+        });
+        $('.car-dropdown').change(function () {
+            debugger;
+            var carId = $(this).val();
+            $.ajax({
+                url: '/Home/SelectCar',
+                data: { id: carId },
+                success: function (result) {
+                    var carInfoDiv = document.getElementById("carInfoDiv");
+                    carInfoDiv.innerHTML = result;
+                },
+            });
+        });
+    });
+</script>
+
+<h1>Car Guessing Game</h1>
+
+@using (Html.BeginForm("CheckGuess", "Home", FormMethod.Post))
+{
+    <div>
+    <h2>Select a Car</h2>
+    @Html.DropDownListFor(m => m.SelectedCarId, Model.CarList, "Select a car", new { @class = "car-dropdown" })
+</div>
+
+    <div id="carInfoDiv">
+
+</div>
+
+    @* @if(Model.SelectedCar is not null)
+    {
+    <div>
+    It works
+    </div>
+    <div>
+    Html.RenderPartial("_CarInfo", Model.SelectedCar);
+    </div>
+
+    } *@
+
+
+    <div>
+    <h2>Guess the Price</h2>
+    @Html.TextBoxFor(m => m.Guess, new { placeholder = "Enter your guess" })
+    <button type="submit">Submit</button>
+</div>
+
+    @if (ViewBag.Result != null)
+    {
+        <p class="@(ViewBag.Result.Success ? "success" : "")">@ViewBag.Result.Message</p>
+    }
+}
+
+<style>
+    .success {
+        color: green;
+        font-weight: bold;
+    }
+</style>

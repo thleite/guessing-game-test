@@ -1,0 +1,15 @@
+@using car_guess.Models
+
+@model MaskedCarViewModel
+
+@if(Model is not null)
+{
+    <div>
+            <h2>Car Information</h2>
+            <p><strong>Make:</strong> @Model.Make</p>
+            <p><strong>Model:</strong> @Model.Model</p>
+            <p><strong>Year:</strong> @Model.Year</p>
+            <p><strong>Doors:</strong> @Model.Doors</p>
+            <p><strong>Color:</strong> @Model.Color</p>
+</div>
+}
